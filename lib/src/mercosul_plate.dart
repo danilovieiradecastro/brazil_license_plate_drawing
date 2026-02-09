@@ -66,7 +66,7 @@ class MercosulPlate extends StatelessWidget {
 
   /// Relation between the height of the letters of the license plate and the entire
   /// license plate height.
-  static const double _lettersHeightRelation = 130 / 235;
+  static const double _lettersHeightRelation = 145 / 235;
   // Default plate width if neither width or height values were provided for the
   // class constructor
   static const double _defaultWidth = 300;
@@ -258,12 +258,13 @@ class MercosulPlate extends StatelessWidget {
   Widget _charactersContent() {
     return Container(
       height: realHeight * _lettersHeightRelation,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          _getPlateChars(plate, realHeight * _lettersHeightRelation),
-        ],
+      alignment: Alignment.center,
+      child: FittedBox(
+        fit: BoxFit.contain,
+        child: _getPlateChars(
+          plate,
+          realHeight * _lettersHeightRelation,
+        ),
       ),
     );
   }
@@ -273,6 +274,7 @@ class MercosulPlate extends StatelessWidget {
     return Text(
       chars.toUpperCase(),
       style: TextStyle(
+        height: 1.1,
         fontSize: fontSize,
         letterSpacing: 2 * (fontSize / 98),
         fontFamily: 'fe',
@@ -280,6 +282,10 @@ class MercosulPlate extends StatelessWidget {
         color: _colorSets[category]?.lettersCollor,
       ),
       textAlign: TextAlign.center,
+      textHeightBehavior: const TextHeightBehavior(
+        applyHeightToFirstAscent: false,
+        applyHeightToLastDescent: false,
+      ),
     );
   }
 }
